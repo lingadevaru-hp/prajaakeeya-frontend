@@ -86,7 +86,12 @@ const AuthCallbackPage = () => {
       } else {
         setAuth(token, user);
       }
-      navigate('/user/dashboard', { replace: true });
+      
+      // Check if there's a saved return path (e.g., from guest dashboard)
+      const returnTo = sessionStorage.getItem('__RETURN_TO__');
+      sessionStorage.removeItem('__RETURN_TO__');
+      const destination = returnTo || '/user/dashboard';
+      navigate(destination, { replace: true });
     } catch (e) {
       console.error('Failed to parse auth callback params', e);
     }
